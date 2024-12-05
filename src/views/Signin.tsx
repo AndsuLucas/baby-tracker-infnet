@@ -3,8 +3,10 @@ import Box from "../components/Box";
 import Form from "../components/Form";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../data/AuthProvider";
+import { useTranslation } from "react-i18next";
 
 const Signin: React.FC = () => {
+  const { t } = useTranslation();
   const [user, setUser] = React.useState<{}>({
     login: "",
     password: "",
@@ -19,20 +21,20 @@ const Signin: React.FC = () => {
       doLogin({ name: "Professor" });
       navigate("/");
     } else {
-      alert("Digite algo no login professor (usuario e senha).");
+      alert(t("alertLoginMessage"));
     }
   };
 
   const fields = [
     {
-      label: "Username",
+      label: t("username"),
       id: "user",
       props: {
         required: true,
       },
     },
     {
-      label: "Password",
+      label: t("password"),
       id: "pass",
       props: {
         required: true,
@@ -41,10 +43,10 @@ const Signin: React.FC = () => {
     },
   ];
   return (
-    <Box boxProps={{ textAlign: "center" }}>
-      <h1>Signin</h1>
-      <Form onSubmit={(formData) => login(formData)} fields={fields} />
-    </Box>
+      <Box boxProps={{ textAlign: "center" }}>
+        <h1>{t("signin")}</h1>
+        <Form onSubmit={(formData) => login(formData)} fields={fields} />
+      </Box>
   );
 };
 

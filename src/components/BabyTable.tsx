@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 interface BabyDto {
     name: string;
@@ -10,6 +11,8 @@ interface BabyDto {
 }
 
 const BabyTable: React.FC<{ baby: BabyDto }> = ({ baby }) => {
+    const { t } = useTranslation();
+
     const calculateDaysOfLife = (birthDay: Date): number => {
         const birthDate = dayjs(birthDay);
         const today = dayjs();
@@ -21,10 +24,10 @@ const BabyTable: React.FC<{ baby: BabyDto }> = ({ baby }) => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Days of Life</TableCell>
-                        <TableCell>Weight (kg)</TableCell>
-                        <TableCell>Height (cm)</TableCell>
+                        <TableCell>{t('babyName')}</TableCell>
+                        <TableCell>{t('babyDays')}</TableCell>
+                        <TableCell>{t('babyWeight')}</TableCell>
+                        <TableCell>{t('babyHeight')}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

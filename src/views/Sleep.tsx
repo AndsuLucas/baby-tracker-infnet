@@ -1,27 +1,34 @@
-import React from 'react';
+import React from "react";
 import Box from "../components/Box";
 import Form from "../components/Form";
 import CustomAppBar from "../components/CustomAppBar";
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import {FormLabel} from "@mui/joy";
-import {useBabyContext} from "../data/BabyProvider";
-import {useNavigate, useParams} from "react-router-dom";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import { FormLabel } from "@mui/joy";
+import { useBabyContext } from "../data/BabyProvider";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Sleep: React.FC = () => {
-
+    const { t } = useTranslation();
     const babyContext = useBabyContext();
 
-    const {babyDto, addRegister, getCurrentId, getRegisterById, updateRegister, removeRegisterById} = babyContext;
+    const {
+        babyDto,
+        addRegister,
+        getCurrentId,
+        getRegisterById,
+        updateRegister,
+        removeRegisterById,
+    } = babyContext;
 
     const navigate = useNavigate();
-
-    const {registerId} = useParams();
+    const { registerId } = useParams();
 
     const handleSubmit = (formData: { [key: string]: any }) => {
         const sleepRegister = {
             id: registerId ? registerId : getCurrentId(),
-            type: 'sleep',
+            type: "sleep",
             ...formData,
         };
 
@@ -31,9 +38,8 @@ const Sleep: React.FC = () => {
             addRegister(sleepRegister);
         }
 
-
         console.log(babyDto);
-        navigate('/');
+        navigate("/");
     };
 
     const getDefaultValueIfHave = (prop: string) => {
@@ -41,18 +47,20 @@ const Sleep: React.FC = () => {
             return {};
         }
 
-        const register = getRegisterById(parseInt(registerId)) as { [key: string]: any };
+        const register = getRegisterById(parseInt(registerId)) as {
+            [key: string]: any;
+        };
         if (!register) {
             return {};
         }
 
         if (register[prop]) {
             console.log(register[prop]);
-            return {defaultValue: register[prop]};
+            return { defaultValue: register[prop] };
         }
 
         return {};
-    }
+    };
 
     const getDeleteActionIfneeds = () => {
         if (!registerId) {
@@ -60,52 +68,56 @@ const Sleep: React.FC = () => {
         }
 
         return () => {
-            const response = window.confirm('Deseja deletar?')
+            const response = window.confirm(t("deleteConfirm"));
             if (response) {
                 removeRegisterById(parseInt(registerId));
-                navigate('/');
+                navigate("/");
             }
-        }
-    }
+        };
+    };
 
     const fields = [
         {
-            label: 'Start date and time',
-            id: 'startDate',
+            label: t("startDateTime"),
+            id: "startDate",
             props: {
-                type: 'date',
+                type: "date",
                 required: true,
             },
-            ...getDefaultValueIfHave('startDate'),
+            ...getDefaultValueIfHave("startDate"),
         },
         {
-            label: 'End date and time',
-            id: 'endDate',
+            label: t("endDateTime"),
+            id: "endDate",
             props: {
-                type: 'date',
+                type: "date",
                 required: true,
             },
-           ...getDefaultValueIfHave('endDate'),
+            ...getDefaultValueIfHave("endDate"),
         },
         {
-            label: 'Obs',
-            id: 'obs',
+            label: t("obs"),
+            id: "obs",
             props: {
-                type: 'textarea',
+                type: "textarea",
                 required: false,
             },
-            ...getDefaultValueIfHave('obs'),
+            ...getDefaultValueIfHave("obs"),
         },
     ];
 
     return (
         <section>
-            <CustomAppBar backPath="/" pageTitle="Sleep register" deleteAction={getDeleteActionIfneeds()}/>
-            <Box boxProps={{marginTop: '20px'}}>
-                <Form onSubmit={(formData) => handleSubmit(formData)} fields={fields}/>
+            <CustomAppBar
+                backPath="/"
+                pageTitle={t("sleepRegister")}
+                deleteAction={getDeleteActionIfneeds()}
+            />
+            <Box boxProps={{ marginTop: "20px" }}>
+                <Form onSubmit={(formData) => handleSubmit(formData)} fields={fields} />
             </Box>
         </section>
-    )
+    );
 };
 
 export default Sleep;
