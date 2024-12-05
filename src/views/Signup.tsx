@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Box from "../components/Box";
 import Form from "../components/Form";
+import { useTranslation } from "react-i18next";
 
 interface User {
   login: string;
@@ -11,6 +12,8 @@ interface User {
 }
 
 const Signup: React.FC = () => {
+  const { t } = useTranslation();
+
   const [user, setUser] = React.useState<User>({
     login: "",
     password: "",
@@ -21,14 +24,14 @@ const Signup: React.FC = () => {
 
   const fields = [
     {
-      label: "Username",
+      label: t("username"),
       id: "login",
       props: {
         required: true,
       },
     },
     {
-      label: "Password",
+      label: t("password"),
       id: "password",
       props: {
         required: true,
@@ -36,7 +39,7 @@ const Signup: React.FC = () => {
       },
     },
     {
-      label: "Confirm Password",
+      label: t("confirmPassword"),
       id: "confirmPassword",
       props: {
         required: true,
@@ -44,14 +47,14 @@ const Signup: React.FC = () => {
       },
     },
     {
-      label: "Name",
+      label: t("name"),
       id: "name",
       props: {
         required: true,
       },
     },
     {
-      label: "Email",
+      label: t("email"),
       id: "email",
       props: {
         required: true,
@@ -72,10 +75,10 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <Box boxProps={{ flexDirection: "column" }}>
-      <h1>Signup</h1>
-      <Form onSubmit={handleSubmit} fields={fields} />
-    </Box>
+      <Box boxProps={{ flexDirection: "column" }}>
+        <h1>{t("signup")}</h1>
+        <Form onSubmit={handleSubmit} fields={fields} />
+      </Box>
   );
 };
 
